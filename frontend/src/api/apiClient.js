@@ -4,7 +4,7 @@
  * Centralized service layer for interacting with AIForge backend REST APIs.
  */
 
-const rawBase = (import.meta.env && import.meta.env.VITE_API_BASE_URL) || 'http://127.0.0.1:8000';
+const rawBase = (import.meta.env && import.meta.env.VITE_API_BASE_URL) || 'https://ai-forge-by-team-agni.onrender.com';
 const API_BASE = rawBase.replace(/\/api\/?$/, '').replace(/\/+$/, '');
 
 export async function extractErrorMessage(response, defaultMsg = 'An unexpected error occurred.') {
@@ -48,13 +48,12 @@ export const api = {
   async getHealth() {
     try {
       const res = await fetch(`${API_BASE}/api/health`);
-      if (!res.ok) throw new Error(await extractErrorMessage(res));
+      if (!res.ok) {
+        return { status: 'offline', error: await extractErrorMessage(res) };
+      }
       return await res.json();
     } catch (err) {
-      if (err instanceof TypeError && err.message.toLowerCase().includes('fetch')) {
-        return { status: 'offline', error: 'Backend API unreachable' };
-      }
-      throw err;
+      return { status: 'offline', error: err?.message || 'Backend API unreachable' };
     }
   },
 
