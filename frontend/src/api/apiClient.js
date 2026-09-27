@@ -4,7 +4,7 @@
  * Centralized service layer for interacting with AIForge backend REST APIs.
  */
 
-const API_BASE = (import.meta.env && import.meta.env.VITE_API_BASE_URL) || 'https://ai-forge-by-team-agni.onrender.com/';
+const API_BASE = (import.meta.env && import.meta.env.VITE_API_BASE_URL) || 'https://ai-forge-by-team-agni.onrender.com';
 
 export async function extractErrorMessage(response, defaultMsg = 'An unexpected error occurred.') {
   if (!response) return defaultMsg;
