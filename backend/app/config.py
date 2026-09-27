@@ -55,9 +55,19 @@ class Settings(BaseModel):
 
     @property
     def cors_origins_list(self) -> List[str]:
+        defaults = [
+            "http://localhost:5173",
+            "http://127.0.0.1:5173",
+            "http://localhost:3000",
+            "https://aiforge-by-team-agni.vercel.app",
+        ]
         if not self.allowed_origins:
-            return ["http://localhost:5173", "http://127.0.0.1:5173"]
-        return [origin.strip() for origin in self.allowed_origins.split(",") if origin.strip()]
+            return defaults
+        custom = [origin.strip() for origin in self.allowed_origins.split(",") if origin.strip()]
+        for d in defaults:
+            if d not in custom:
+                custom.append(d)
+        return custom
 
     def is_gemini_configured(self) -> bool:
         return bool(self.gemini_api_key and len(self.gemini_api_key.strip()) > 0)

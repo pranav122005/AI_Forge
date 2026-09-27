@@ -82,12 +82,21 @@ def validate_id_string(value: str, field_name: str = "ID") -> str:
 def get_cors_origins() -> List[str]:
     """
     Parse allowed CORS origins from environment variable ALLOWED_ORIGINS.
-    Defaults to local development origins.
+    Defaults to local development origins and the production Vercel frontend.
     """
     env_origins = os.getenv("ALLOWED_ORIGINS", "")
+    origins = [
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "http://localhost:3000",
+        "https://aiforge-by-team-agni.vercel.app",
+    ]
     if env_origins:
-        return [o.strip() for o in env_origins.split(",") if o.strip()]
-    return ["http://localhost:5173", "http://127.0.0.1:5173", "http://localhost:3000"]
+        for o in env_origins.split(","):
+            o_clean = o.strip()
+            if o_clean and o_clean not in origins:
+                origins.append(o_clean)
+    return origins
 
 
 # API Key Security Header
