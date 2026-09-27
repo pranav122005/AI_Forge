@@ -1,0 +1,16 @@
+fastapi>=0.115
+uvicorn[standard]>=0.34
+pandas>=2.2
+scikit-learn>=1.5
+joblib>=1.4
+python-multipart>=0.0.9
+# Vision pipeline
+opencv-python-headless>=4.9
+Pillow>=10.0
+numpy>=1.24
+# OCR (requires Tesseract system binary: https://github.com/UB-Mannheim/tesseract/wiki)
+pytesseract>=0.3
+httpx>=0.27
+pytest>=8.3
+openai>=1.0.0
+
